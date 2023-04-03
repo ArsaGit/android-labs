@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_header_font_size">16dp</dimen>
+    <dimen name="card_subhead_font_size">14dp</dimen>
+    <dimen name="card_text_font_size">14dp</dimen>
+    <dimen name="button_text_font_size">14dp</dimen>
+    <dimen name="switch_text_font_size">16dp</dimen>
+    <dimen name="item_space">15dp</dimen>
+</resources>

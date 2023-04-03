@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">lab1</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="card_header_header">Header</string>
+    <string name="card_header_subhead">Subhead</string>
+    <string name="card_content_header">Title</string>
+    <string name="card_content_subhead">Subhead</string>
+    <string name="card_content_body">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+    </string>
+    <string name="card_button">Enabled</string>
+    <string name="small_card_header">Header 1</string>
+    <string name="list_top_bar_headline">Product</string>
+    <string name="item_top_bar_headline">Title</string>
+
+    <string name="item_content_header">Это заголовок</string>
+    <string name="item_content_body">
+        А это текст полный смысла и очень большой, наверное тут должно быть описание сказочного
+        персонажа или ещё кого-то, вообщем смысл простой - длинный текст, а ещё он не доходит до
+        конца экрана, это фича =)
+    </string>
+    <string name="item_switch_text">Меняет цвет фона карточки выше при переключении</string>
+    <string name="item_like">+ Лайк</string>
+    <string name="item_share">+ Поделиться</string>
+</resources>
