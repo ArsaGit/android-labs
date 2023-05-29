@@ -1,69 +1,97 @@
 package com.example.lab1
 
-import android.os.Bundle
-import android.text.Layout.Directions
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.cardview.widget.CardView
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lab1.databinding.ItemSmallBinding
+import com.example.lab1.model.SealedCard
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
-class ItemListAdapter : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(ItemDiffUtil()) {
+class ItemListAdapter : ListAdapter<SealedCard, ItemListAdapter.ItemViewHolder>(ItemDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        if (viewType == 0) return ItemViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_big, parent, false)
-        )
-        else return ItemViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_small, parent, false)
-        )
+        return when (viewType) {
+            R.layout.card_img_text -> ItemViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_img_text, parent, false)
+            )
+            R.layout.card_img_round_text -> ItemViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_img_round_text, parent, false)
+            )
+            R.layout.card_img_text_bag -> ItemViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_img_text_bag, parent, false)
+            )
+            R.layout.card_text -> ItemViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_text, parent, false)
+            )
+            else -> ItemViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_img_text, parent, false)
+            )
+        }
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.itemView.setOnClickListener { view ->
-            val bundle = Bundle()
-            val itemId = currentList[position].id
-            bundle.putInt("itemId", itemId)
-            view.findNavController()
-                .navigate(R.id.action_itemListFragment2_to_itemDetailsFragment, bundle)
+        val cardInfo = currentList[position] as SealedCard.CardInfo
+
+        val imageUrl = cardInfo.img
+
+        if (cardInfo.hasBag != null) {
+            holder.title.setBackgroundColor(Color.parseColor(cardInfo.hasBag))
+            holder.subtitle.setBackgroundColor(Color.parseColor(cardInfo.hasBag))
         }
 
+        if (holder.image != null) {
+            if (cardInfo.isCircle != null && cardInfo.isCircle)
+                Picasso.get().load(imageUrl).resize(400, 400)
+                    .transform(CropCircleTransformation()).into(holder.image)
+            else
+                Picasso.get().load(imageUrl).into(holder.image)
+        }
+
+        holder.title.text = cardInfo.title
+        holder.subtitle.text = cardInfo.subtitle
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        val image: ImageView? = itemView.findViewById(R.id.card_img)
+        val title: TextView = itemView.findViewById(R.id.card_title)
+        val subtitle: TextView = itemView.findViewById(R.id.card_subtitle)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return position % 2
-    }
+    override fun getItemViewType(position: Int): Int = currentList[position].getCardType()
 
-    class ItemDiffUtil : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return areItemsTheSame(oldItem, newItem)
+    class ItemDiffUtil : DiffUtil.ItemCallback<SealedCard>() {
+        override fun areItemsTheSame(oldItem: SealedCard, newItem: SealedCard): Boolean {
+            return when {
+                oldItem is SealedCard.CardInfo && newItem is SealedCard.CardInfo -> {
+                    oldItem == newItem
+                }
+                else -> false
+            }
+
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: SealedCard, newItem: SealedCard): Boolean {
+            return when {
+                oldItem is SealedCard.CardInfo && newItem is SealedCard.CardInfo -> {
+                    oldItem.img.equals(newItem.img);
+                    oldItem.title == newItem.title;
+                    oldItem.subtitle == newItem.subtitle;
+                    oldItem.hasBag.equals(newItem.hasBag);
+                    oldItem.isCircle == newItem.isCircle;
+                }
+                else -> false
+            }
         }
     }
-
-    private fun createOnClickListener(view: View, itemId: Int): View.OnClickListener {
-        return View.OnClickListener {
-
-
-        }
-    }
-
-
 }
