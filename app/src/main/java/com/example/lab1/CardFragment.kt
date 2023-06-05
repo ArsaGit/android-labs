@@ -8,12 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab1.databinding.FragmentItemListBinding
-import com.example.lab1.model.SealedCard
 import com.google.android.material.appbar.MaterialToolbar
 
-class ItemListFragment : Fragment() {
+class CardFragment : Fragment() {
     private lateinit var binding: FragmentItemListBinding
-    private lateinit var itemAdapter: ItemListAdapter
+    private lateinit var itemAdapter: CardListAdapter
     private lateinit var navController: NavController
     private lateinit var cardsViewModel: CardsViewModel
 
@@ -28,16 +27,16 @@ class ItemListFragment : Fragment() {
         cardsViewModel = ViewModelProvider(this)[CardsViewModel::class.java]
 
         //создаю adapter
-        itemAdapter = ItemListAdapter()
+        itemAdapter = CardListAdapter()
         //привязываю
         binding.recycleViewer.apply {
             //тип layouta
-            layoutManager = LinearLayoutManager(this@ItemListFragment.activity)
+            layoutManager = LinearLayoutManager(this@CardFragment.activity)
             adapter = itemAdapter   //присваиваю adapter
         }
         //добавляю декаротор, т.к. карточки слиплись
         binding.recycleViewer.addItemDecoration(
-            ItemDecorator(resources.getDimensionPixelSize(R.dimen.item_space))
+            CardListDecorator(resources.getDimensionPixelSize(R.dimen.item_space))
         )
 
         //достаю и изменяю toolbar
@@ -53,8 +52,10 @@ class ItemListFragment : Fragment() {
 //        )
 //        itemAdapter.submitList(items)
 
+        //регистрирую наблюдателей
         registerObservers()
 
+        //получаю данные
         cardsViewModel.getCards()
 
         //sealed class

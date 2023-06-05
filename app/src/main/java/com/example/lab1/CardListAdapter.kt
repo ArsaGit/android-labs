@@ -13,7 +13,7 @@ import com.example.lab1.model.SealedCard
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
-class ItemListAdapter : ListAdapter<SealedCard, ItemListAdapter.ItemViewHolder>(ItemDiffUtil()) {
+class CardListAdapter : ListAdapter<SealedCard, CardListAdapter.ItemViewHolder>(ItemDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return when (viewType) {
