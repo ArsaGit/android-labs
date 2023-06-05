@@ -7,14 +7,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lab1.adapter.CardListAdapter
+import com.example.lab1.component.ApplicationComponent
+import com.example.lab1.component.DaggerApplicationComponent
 import com.example.lab1.databinding.FragmentItemListBinding
+import com.example.lab1.decorator.CardListDecorator
+import com.example.lab1.viewModel.CardsViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import javax.inject.Inject
 
 class CardFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var binding: FragmentItemListBinding
     private lateinit var itemAdapter: CardListAdapter
     private lateinit var navController: NavController
     private lateinit var cardsViewModel: CardsViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +37,11 @@ class CardFragment : Fragment() {
         //инициализирую binding
         binding = FragmentItemListBinding.inflate(inflater, container, false)
 
-        cardsViewModel = ViewModelProvider(this)[CardsViewModel::class.java]
+        val appComponent: ApplicationComponent = DaggerApplicationComponent.create()
+        appComponent.inject(this)
+        cardsViewModel = ViewModelProvider(this, viewModelFactory)[CardsViewModel::class.java]
+
+//        cardsViewModel = ViewModelProvider(this)[CardsViewModel::class.java]
 
         //создаю adapter
         itemAdapter = CardListAdapter()

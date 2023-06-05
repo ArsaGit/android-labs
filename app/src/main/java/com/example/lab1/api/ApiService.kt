@@ -1,6 +1,8 @@
 package com.example.lab1.api
 
 import com.example.lab1.model.SealedCard
+import dagger.Module
+import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -12,21 +14,22 @@ interface ApiService {
     suspend fun getCards(): Response<MutableList<SealedCard.CardInfo>>
 }
 
-object RetrofitManager {
+@Module
+object NetworkModule {
     private const val BASE_URL = "https://develtop.ru/study/"
-    val apiService: ApiService
 
-    init {
+    @Provides
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().build()
+    }
 
-        val client = OkHttpClient.Builder().build()
-
-        apiService = Retrofit.Builder()
+    @Provides
+    fun provideApiService(okHttpClient: OkHttpClient): ApiService {
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
+            .client(okHttpClient)
             .build()
             .create(ApiService::class.java)
     }
-
-
 }
