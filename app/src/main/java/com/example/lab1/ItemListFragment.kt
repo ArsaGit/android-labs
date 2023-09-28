@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab1.databinding.FragmentItemListBinding
 import com.google.android.material.appbar.MaterialToolbar
@@ -39,7 +38,13 @@ class ItemListFragment : Fragment() {
         topBar?.setNavigationIcon(R.drawable.baseline_menu_24)
 
 
-        var items = listOf(Item(13),Item(2), Item(3), Item(4), Item(5), Item(6))
+        var items = listOf(
+            SealedItem.BigItem(13, "url"),
+            SealedItem.SmallItem(2),
+            SealedItem.SmallItem(3), SealedItem.BigItem(4, "uasda"),
+            SealedItem.SmallItem(5),
+            SealedItem.SmallItem(6)
+        )
         itemAdapter.submitList(items)
 
         return binding.root

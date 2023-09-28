@@ -1,38 +1,40 @@
 package com.example.lab1
 
 import android.os.Bundle
-import android.text.Layout.Directions
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.cardview.widget.CardView
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lab1.databinding.ItemSmallBinding
 
-class ItemListAdapter : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(ItemDiffUtil()) {
+class ItemListAdapter : ListAdapter<SealedItem, ItemListAdapter.ItemViewHolder>(ItemDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        if (viewType == 0) return ItemViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_big, parent, false)
-        )
-        else return ItemViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_small, parent, false)
-        )
+        return when(viewType) {
+            R.layout.item_big -> {
+                ItemViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_big, parent, false))
+            }
+            R.layout.item_small -> {
+                ItemViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_small, parent, false))
+            }
+            else -> throw IllegalArgumentException("Uknown viewType")
+        }
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemView.setOnClickListener { view ->
             val bundle = Bundle()
-            val itemId = currentList[position].id
+
+            val item = currentList[position]
+            val itemId = when(item) {
+                is SealedItem.BigItem -> item.id
+                is SealedItem.SmallItem -> item.id
+            }
+
             bundle.putInt("itemId", itemId)
             view.findNavController()
                 .navigate(R.id.action_itemListFragment2_to_itemDetailsFragment, bundle)
@@ -45,22 +47,33 @@ class ItemListAdapter : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(ItemDi
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position % 2
+        return when(getItem(position)) {
+            is SealedItem.BigItem -> R.layout.item_big
+            is SealedItem.SmallItem -> R.layout.item_small
+        }
     }
 
-    class ItemDiffUtil : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+    class ItemDiffUtil : DiffUtil.ItemCallback<SealedItem>() {
+        override fun areItemsTheSame(oldItem: SealedItem, newItem: SealedItem): Boolean {
             return areItemsTheSame(oldItem, newItem)
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: SealedItem, newItem: SealedItem): Boolean {
+            return when {
+                oldItem is SealedItem.BigItem && newItem is SealedItem.BigItem -> {
+                    oldItem.id == newItem.id;
+                    oldItem.imgUrl == newItem.imgUrl;
+                }
+                oldItem is SealedItem.SmallItem && newItem is SealedItem.SmallItem -> {
+                    oldItem.id == newItem.id;
+                }
+                else -> false
+            }
         }
     }
 
     private fun createOnClickListener(view: View, itemId: Int): View.OnClickListener {
         return View.OnClickListener {
-
 
         }
     }
