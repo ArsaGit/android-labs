@@ -1,4 +1,4 @@
-package com.example.lab1.adapter
+package com.example.lab1.ui
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab1.R
-import com.example.lab1.model.SealedCard
+import com.example.lab1.data.model.SealedCard
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 

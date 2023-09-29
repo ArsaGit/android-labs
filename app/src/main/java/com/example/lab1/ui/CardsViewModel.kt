@@ -1,13 +1,12 @@
-package com.example.lab1.viewModel
+package com.example.lab1.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lab1.api.CardRepository
-import com.example.lab1.api.GetCardsUseCase
+import com.example.lab1.data.useCase.GetCardsUseCaseImpl
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CardsViewModel @Inject constructor(private val getCardsUseCase: GetCardsUseCase) : ViewModel() {
+class CardsViewModel @Inject constructor(private val getCardsUseCase: GetCardsUseCaseImpl) : ViewModel() {
     val cardLiveDataSuccess = getCardsUseCase.cardsLiveDataSuccess
     val cardsLiveDataFailure = getCardsUseCase.cardsLiveDataFailure
 

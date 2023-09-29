@@ -1,4 +1,4 @@
-package com.example.lab1.decorator
+package com.example.lab1.ui
 
 import android.graphics.Rect
 import android.view.View

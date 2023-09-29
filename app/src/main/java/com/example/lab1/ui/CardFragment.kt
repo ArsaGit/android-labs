@@ -1,4 +1,4 @@
-package com.example.lab1
+package com.example.lab1.ui
 
 import android.os.Bundle
 import android.view.*
@@ -7,12 +7,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lab1.adapter.CardListAdapter
-import com.example.lab1.component.ApplicationComponent
-import com.example.lab1.component.DaggerApplicationComponent
+import com.example.lab1.R
+import com.example.lab1.di.ApplicationComponent
 import com.example.lab1.databinding.FragmentItemListBinding
-import com.example.lab1.decorator.CardListDecorator
-import com.example.lab1.viewModel.CardsViewModel
+import com.example.lab1.di.DaggerApplicationComponent
 import com.google.android.material.appbar.MaterialToolbar
 import javax.inject.Inject
 

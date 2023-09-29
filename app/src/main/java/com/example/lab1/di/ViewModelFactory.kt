@@ -1,7 +1,8 @@
-package com.example.lab1.viewModel
+package com.example.lab1.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.lab1.ui.CardsViewModel
 import dagger.Module
 import dagger.Provides
 

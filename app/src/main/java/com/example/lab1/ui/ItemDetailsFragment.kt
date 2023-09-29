@@ -1,10 +1,10 @@
-package com.example.lab1
+package com.example.lab1.ui
 
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.appcompat.view.menu.MenuView
+import com.example.lab1.R
 import com.example.lab1.databinding.FragmentItemDetailsBinding
 import com.google.android.material.appbar.MaterialToolbar
 
